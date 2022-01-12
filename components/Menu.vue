@@ -10,6 +10,8 @@
       hover:bg-red-50
       py-3
       border-b border-red-50
+      z-50
+      px-3
     "
     :class="{ 'bg-red-50': scrolled }"
     ref="navBar"
@@ -20,8 +22,16 @@
       <Logo :class="{ 'text-gray-400 glitch': scrolled }" />
       <section>
         <ul class="social flex space-x-2">
-          <li><Twitter /></li>
-          <li><Instagram /></li>
+          <li>
+            <a href="https://twitter.com/duskoworld" target="_BLANK"
+              ><Twitter
+            /></a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/duskoworld/" target="_BLANK"
+              ><Instagram
+            /></a>
+          </li>
         </ul>
       </section>
     </div>

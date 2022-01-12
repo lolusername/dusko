@@ -1,5 +1,7 @@
 <template>
-  <a href="/" class="font-heading text-2xl uppercase font-bold">Dusko</a>
+  <NuxtLink to="/" class="font-heading text-2xl uppercase font-bold"
+    >Dusko</NuxtLink
+  >
 </template>
 
 <script>

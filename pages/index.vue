@@ -1,7 +1,7 @@
 <template>
   <main class="dark container mx-auto">
     <section
-      class="flex justify-between space-x-16 pt-24"
+      class="flex flex-col md:flex-row justify-between md:space-x-16 md:pt-24"
       ref="content"
       :class="{ 'bg-pink-400': scrolled }"
     >
@@ -11,17 +11,27 @@
         loading="lazy"
         class="max-w-lg border-8"
       />
-      <div class="text-3xl">
+      <div class="text-xl md:text-3xl p-3">
         <h1 class="font-heading text-6xl font-bold mb-3">Welcome</h1>
         <article class="font-bold border-b pb-12 welcome-text">
           <SanityContent :blocks="globalInfo.welcomeText" />
         </article>
       </div>
     </section>
-    <section class="grid grid-cols-3 my-24 gap-12">
-      <div class="col-span-2">
+    <section class="grid grid-cols-3 my-6 md:my-24 gap-12">
+      <div class="col-span-3 md:col-span-2">
         <h3
-          class="font-heading text-5xl font-bold text-red-200 -mb-3 char-name"
+          class="
+            font-heading
+            text-4xl
+            md:text-5xl
+            text-center
+            md:text-left
+            font-bold
+            text-red-200
+            -mb-3
+            char-name
+          "
         >
           VOL.2 Character NFTs:
         </h3>
@@ -40,7 +50,9 @@
                 class="
                   text-gray-800
                   capitalize
-                  text-3xl text-center
+                  text-xl
+                  md:text-3xl
+                  text-center
                   group-hover:underline
                   pt-2
                   font-heading
@@ -52,21 +64,27 @@
           </article>
         </div>
       </div>
-      <div class="">
+      <div class="col-span-3 md:col-span-1">
         <h3
           class="
             font-heading
-            text-5xl text-right
+            text-4xl
+            md:text-5xl
+            text-center
+            md:text-right
             font-bold
             text-gray-800
             -mb-3
             issues
-            text-opacity-90
+            text-opacity-10
+            md:text-opacity-90
           "
         >
           Comic Issues
         </h3>
-        <div class="gap-4 p-4 -bottom-4 bg-gray-200 bg-opacity-10 border">
+        <div
+          class="gap-4 p-4 -bottom-4 md:bg-gray-200 md:bg-opacity-10 md:border"
+        >
           <article
             class="text-gray-800 block mb-6"
             v-for="issue in issues"
@@ -136,7 +154,12 @@ export default {
   },
   async asyncData({ $sanity }) {
     console.log()
-    const characterQuery = groq`*[_type == "character"]`
+    const characterQuery = groq`*[_type == "character"]{
+                                  name,
+                                  _id,
+                                  slug,
+                                  charImage
+                                }`
     const issueQuery = groq`*[_type == "issue"]{
                               ...,
                               "url": issue.asset->url
