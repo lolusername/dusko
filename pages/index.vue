@@ -1,6 +1,10 @@
 <template>
   <main class="dark container mx-auto">
-    <section class="flex justify-between space-x-16 pt-24">
+    <section
+      class="flex justify-between space-x-16 pt-24"
+      ref="content"
+      :class="{ 'bg-pink-400': scrolled }"
+    >
       <img
         :src="$urlFor(globalInfo.welcomeImage)"
         alt="Artwork representing the collection"
@@ -14,35 +18,108 @@
         </article>
       </div>
     </section>
-    <section class="max-w-6xl mx-auto mb-24">
-      <h3
-        class="font-heading text-center text-5xl font-bold mt-12 text-green-300"
-      >
-        VOL.2 Character NFTs:
-      </h3>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-24 p-4 border">
-        <article v-for="character in characters" :key="character._id">
-          <a class="inline" href="">
+    <section class="grid grid-cols-3 my-24 gap-12">
+      <div class="col-span-2">
+        <h3
+          class="font-heading text-5xl font-bold text-red-200 -mb-3 char-name"
+        >
+          VOL.2 Character NFTs:
+        </h3>
+        <div
+          class="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 -bottom-4 bg-red-200"
+        >
+          <article v-for="character in characters" :key="character._id">
+            <NuxtLink class="inline group" :to="character.slug.current">
+              <img
+                :src="$urlFor(character.charImage)"
+                :alt="character.description"
+                loading="lazy"
+                class=""
+              />
+              <p
+                class="
+                  text-gray-800
+                  capitalize
+                  text-3xl text-center
+                  group-hover:underline
+                  pt-2
+                  font-heading
+                "
+              >
+                {{ character.name }}
+              </p>
+            </NuxtLink>
+          </article>
+        </div>
+      </div>
+      <div class="">
+        <h3
+          class="
+            font-heading
+            text-5xl text-right
+            font-bold
+            text-gray-800
+            -mb-3
+            issues
+            text-opacity-90
+          "
+        >
+          Comic Issues
+        </h3>
+        <div class="gap-4 p-4 -bottom-4 bg-gray-200 bg-opacity-10 border">
+          <article
+            class="text-gray-800 block mb-6"
+            v-for="issue in issues"
+            :key="issue._id"
+          >
+            <h1 class="font-bold uppercase text-2xl text-gray-300 text-center">
+              {{ issue.title }}
+            </h1>
             <img
-              :src="$urlFor(character.charImage)"
-              :alt="character.description"
+              :src="$urlFor(issue.coverImage)"
+              alt="Comic Issues in PDF format"
               loading="lazy"
-              class=""
+              class="max-w-xs mx-auto my-2 filter"
             />
-            <p
+            <a
+              :href="`${issue.url}?dl=`"
               class="
-                text-yellow-300
-                capitalize
-                text-3xl text-center
-                pt-2
+                bg-blue-400
+                mx-auto
+                block
+                text-2xl
                 font-heading
+                text-gray-200
+                my-3
+                px-4
+                py-1
+                max-w-xs
+                text-center
+                rounded-3xl
+                bg-gradient-to-r
+                from-blue-500
+                hover:to-blue-600
+                to-blue-500
               "
             >
-              {{ character.name }}
-            </p>
-          </a>
-        </article>
+              Read {{ issue.title }}
+            </a>
+            <div>
+              <i
+                class="
+                  block
+                  text-center text-red-50 text-4xl text-align-center
+                  -mt-3
+                  align-text-top
+                  text-heading
+                "
+                >...</i
+              >
+            </div>
+          </article>
+        </div>
       </div>
+      <div></div>
     </section>
   </main>
 </template>
@@ -52,18 +129,34 @@ import { groq } from '@nuxtjs/sanity'
 
 export default {
   name: 'home',
+  data() {
+    return {
+      scrolled: false,
+    }
+  },
   async asyncData({ $sanity }) {
     console.log()
     const characterQuery = groq`*[_type == "character"]`
+    const issueQuery = groq`*[_type == "issue"]{
+                              ...,
+                              "url": issue.asset->url
+                            }`
     const aboutQuery = groq`*[_id == "about"][0]`
     const characters = await $sanity.fetch(characterQuery)
+    const issues = await $sanity.fetch(issueQuery)
     const globalInfo = await $sanity.fetch(aboutQuery)
-    return { characters, globalInfo }
+    return { characters, globalInfo, issues }
   },
 }
 </script>
 <style  >
 .welcome-text p {
   @apply mb-6;
+}
+.char-name {
+  text-shadow: 1px 2px 1px #7f1d1d;
+}
+.issues {
+  text-shadow: 1px -2px 1px #e5e7eb;
 }
 </style>
