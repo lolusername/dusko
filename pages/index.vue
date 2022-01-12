@@ -9,7 +9,7 @@
         :src="$urlFor(globalInfo.welcomeImage)"
         alt="Artwork representing the collection"
         loading="lazy"
-        class="max-w-lg border-8"
+        class="max-w-full md:max-w-lg border-8 object-cover"
       />
       <div class="text-xl md:text-3xl p-3">
         <h1 class="font-heading text-6xl font-bold mb-3">Welcome</h1>
