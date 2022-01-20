@@ -15,6 +15,6 @@ export default {
 
 <style>
 html {
-  @apply bg-gradient-to-r from-gray-800 via-gray-800 to-gray-900 text-red-50;
+  @apply bg-black text-red-50;
 }
 </style>

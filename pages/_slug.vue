@@ -100,6 +100,7 @@
 <script>
 import { groq } from '@nuxtjs/sanity'
 export default {
+  name: 'item',
   async asyncData({ params, $sanity }) {
     console.log(params) // { slug: "heros-only" }
     const characterQuery = groq`*[_type == "character" && slug.current == "${params.slug}"]{

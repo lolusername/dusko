@@ -12,58 +12,28 @@
         class="max-w-full md:max-w-lg border-8 object-cover"
       />
       <div class="text-xl md:text-3xl p-3">
-        <h1 class="font-heading text-6xl font-bold mb-3">Welcome</h1>
+        <h1 class="font-heading text-6xl font-bold text-red-500 mb-3">
+          Welcome
+        </h1>
         <article class="font-bold border-b pb-12 welcome-text">
           <SanityContent :blocks="globalInfo.welcomeText" />
+        </article>
+        <article class="border-b py-2">
+          <span class="font-heading">DUSKO VOLUMES:</span>
+          <NuxtLink
+            :to="`collection/${collection.collectionSlug.current}`"
+            v-for="collection in collections"
+            :key="collection._id"
+            class="underline mx-3 hover:no-underline"
+          >
+            {{ collection.collectionTitle }}</NuxtLink
+          >
         </article>
       </div>
     </section>
     <section class="grid grid-cols-3 my-6 md:my-24 gap-12">
-      <div class="col-span-3 md:col-span-2">
-        <h3
-          class="
-            font-heading
-            text-4xl
-            md:text-5xl
-            text-center
-            md:text-left
-            font-bold
-            text-red-200
-            -mb-3
-            char-name
-          "
-        >
-          VOL.2 Character NFTs:
-        </h3>
-        <div
-          class="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 -bottom-4 bg-red-200"
-        >
-          <article v-for="character in characters" :key="character._id">
-            <NuxtLink class="inline group" :to="character.slug.current">
-              <img
-                :src="$urlFor(character.charImage)"
-                :alt="character.description"
-                loading="lazy"
-                class=""
-              />
-              <p
-                class="
-                  text-gray-800
-                  capitalize
-                  text-xl
-                  md:text-3xl
-                  text-center
-                  group-hover:underline
-                  pt-2
-                  font-heading
-                "
-              >
-                {{ character.name }}
-              </p>
-            </NuxtLink>
-          </article>
-        </div>
-      </div>
+      <CollectionListing :collection="chars" />
+
       <div class="col-span-3 md:col-span-1">
         <h3
           class="
@@ -73,24 +43,63 @@
             text-center
             md:text-right
             font-bold
-            text-gray-800
-            -mb-3
-            issues
-            text-opacity-10
             md:text-opacity-90
+            mb-3
+            text-red-500
           "
         >
-          Comic Issues
+          Coming Soon:
         </h3>
-        <div
-          class="gap-4 p-4 -bottom-4 md:bg-gray-200 md:bg-opacity-10 md:border"
+        <div class="gap-4 p-4 -bottom-4 md:border md:border-red-500 mb-6">
+          <article>
+            <img
+              :src="$urlFor(comingSoon.comingSoonImage)"
+              loading="lazy"
+              class="max-w-full mx-auto my-3 filter"
+            />
+            <SanityContent :blocks="comingSoon.content" class="" />
+            <div>
+              <a
+                class="
+                  rounded-3xl
+                  bg-white
+                  text-center text-black
+                  p-2
+                  w-full
+                  block
+                  my-3
+                  font-heading
+                  text-2xl
+                  hover:bg-red-500
+                "
+                :href="comingSoon.mintLink"
+                >Mint The Characters</a
+              >
+            </div>
+          </article>
+        </div>
+
+        <h3
+          class="
+            font-heading
+            text-4xl
+            md:text-5xl
+            text-center
+            md:text-right
+            font-bold
+            md:text-opacity-90
+            mb-3
+          "
         >
+          Comic Issues:
+        </h3>
+        <div class="gap-4 p-4 -bottom-4 md:bg-red-50 md:border">
           <article
-            class="text-gray-800 block mb-6"
+            class="md:text-gray-800 block mb-6"
             v-for="issue in issues"
             :key="issue._id"
           >
-            <h1 class="font-bold uppercase text-2xl text-gray-300 text-center">
+            <h1 class="font-bold uppercase text-2xl text-center">
               {{ issue.title }}
             </h1>
             <img
@@ -102,22 +111,18 @@
             <a
               :href="`${issue.url}?dl=`"
               class="
-                bg-blue-400
                 mx-auto
                 block
                 text-2xl
                 font-heading
-                text-gray-200
                 my-3
                 px-4
                 py-1
                 max-w-xs
                 text-center
                 rounded-3xl
-                bg-gradient-to-r
-                from-blue-500
-                hover:to-blue-600
-                to-blue-500
+                border-4 border-black
+                hover:bg-black hover:text-white
               "
             >
               Read {{ issue.title }}
@@ -153,22 +158,44 @@ export default {
     }
   },
   async asyncData({ $sanity }) {
-    console.log()
     const characterQuery = groq`*[_type == "character"]{
                                   name,
                                   _id,
                                   slug,
                                   charImage
                                 }`
+    const characters = await $sanity.fetch(characterQuery)
+
     const issueQuery = groq`*[_type == "issue"]{
                               ...,
                               "url": issue.asset->url
                             }`
-    const aboutQuery = groq`*[_id == "about"][0]`
-    const characters = await $sanity.fetch(characterQuery)
+
     const issues = await $sanity.fetch(issueQuery)
-    const globalInfo = await $sanity.fetch(aboutQuery)
-    return { characters, globalInfo, issues }
+
+    const globalQuery = groq`*[_id == "about"][0]`
+    const globalInfo = await $sanity.fetch(globalQuery)
+
+    const collectionQuery = groq`*[_type == "collection"] | order(_createdAt asc)`
+    const collections = await $sanity.fetch(collectionQuery)
+
+    const charQuery = groq`*[_type == "collection" && featured== true][0]{
+      ...,
+      collection[]->
+    }`
+    const chars = await $sanity.fetch(charQuery)
+
+    const comingSoonQuery = groq`*[_id == "comingSoon"][0]`
+    const comingSoon = await $sanity.fetch(comingSoonQuery)
+
+    return {
+      characters,
+      globalInfo,
+      issues,
+      collections,
+      chars,
+      comingSoon,
+    }
   },
 }
 </script>

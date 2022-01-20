@@ -5,22 +5,24 @@
       top-0
       transition
       duration-500
-      transition-colors
+      transition-all
       group
       hover:bg-red-50
       py-3
-      border-b border-red-50
+      border-red-50
       z-50
       px-3
+      hover:border-b-4 hover:border-red-400
     "
-    :class="{ 'bg-red-50': scrolled }"
+    :class="{ 'bg-red-50 border-b-4 border-red-500 ': scrolled }"
     ref="navBar"
   >
-    <div
-      class="container mx-auto group-hover:text-gray-400 flex justify-between"
-    >
-      <Logo :class="{ 'text-gray-400 glitch': scrolled }" />
-      <section>
+    <div class="container mx-auto group-hover:text-black flex justify-between">
+      <Logo
+        :class="{ 'text-black': scrolled }"
+        class="group-hover:text-black"
+      />
+      <section :class="{ 'text-black': scrolled }">
         <ul class="social flex space-x-2">
           <li>
             <a href="https://twitter.com/duskoworld" target="_BLANK"

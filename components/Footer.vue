@@ -6,8 +6,7 @@
       duration-500
       transition-colors
       py-3
-      bg-green-600
-      border-b border-red-50
+      border-red-50
       z-50
       px-1
       border-t
