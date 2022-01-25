@@ -32,7 +32,11 @@
       </div>
     </section>
     <section class="grid grid-cols-3 my-6 md:my-24 gap-12">
-      <CollectionListing :collection="chars" />
+      <CollectionListing
+        :truncate="9"
+        :truncateLink="chars.collectionSlug"
+        :collection="chars"
+      />
 
       <div class="col-span-3 md:col-span-1">
         <h3

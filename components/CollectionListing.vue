@@ -43,6 +43,20 @@
         </NuxtLink>
       </article>
     </div>
+    <NuxtLink
+      class="
+        text-3xl
+        font-bold
+        text-center
+        font-heading
+        w-full
+        block
+        underline
+        hover:no-underline
+      "
+      :to="`/${truncateLink.current}`"
+      >View All</NuxtLink
+    >
   </div>
 </template>
 
@@ -52,6 +66,17 @@ export default {
     collection: { type: Object },
     columns: { type: Number, default: 3 },
     showDescription: { type: Boolean, default: false },
+    truncate: { type: Boolean, default: false },
+    truncateLink: { type: String, default: null },
+  },
+  computed: {
+    characters() {
+      if (this.truncate) {
+        return this.collection.collection.slice(0, this.truncate)
+      } else {
+        return this.collection.collection
+      }
+    },
   },
 }
 </script>
