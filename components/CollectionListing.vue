@@ -22,9 +22,8 @@
         <NuxtLink class="inline group" :to="`/${character.slug.current}`">
           <img
             :src="$urlFor(character.charImage)"
-            :alt="character.description"
             loading="lazy"
-            class=""
+            class="w-full"
           />
           <p
             class="

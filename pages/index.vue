@@ -47,10 +47,14 @@
             mb-3
             text-red-500
           "
+          v-if="comingSoon.visible"
         >
           Coming Soon:
         </h3>
-        <div class="gap-4 p-4 -bottom-4 md:border md:border-red-500 mb-6">
+        <div
+          v-if="comingSoon.visible"
+          class="gap-4 p-4 -bottom-4 md:border md:border-red-500 mb-6"
+        >
           <article>
             <img
               :src="$urlFor(comingSoon.comingSoonImage)"
@@ -96,11 +100,11 @@
         <div class="gap-4 p-4 -bottom-4 md:bg-red-50 md:border">
           <article
             class="md:text-gray-800 block mb-6"
-            v-for="issue in issues"
+            v-for="issue in collections"
             :key="issue._id"
           >
             <h1 class="font-bold uppercase text-2xl text-center">
-              {{ issue.title }}
+              {{ issue.collectionTitle }}
             </h1>
             <img
               :src="$urlFor(issue.coverImage)"
@@ -125,7 +129,7 @@
                 hover:bg-black hover:text-white
               "
             >
-              Read {{ issue.title }}
+              Read {{ issue.collectionTitle }}
             </a>
             <div>
               <i
@@ -158,30 +162,18 @@ export default {
     }
   },
   async asyncData({ $sanity }) {
-    const characterQuery = groq`*[_type == "character"]{
-                                  name,
-                                  _id,
-                                  slug,
-                                  charImage
-                                }`
-    const characters = await $sanity.fetch(characterQuery)
-
-    const issueQuery = groq`*[_type == "issue"]{
-                              ...,
-                              "url": issue.asset->url
-                            }`
-
-    const issues = await $sanity.fetch(issueQuery)
-
     const globalQuery = groq`*[_id == "about"][0]`
     const globalInfo = await $sanity.fetch(globalQuery)
 
-    const collectionQuery = groq`*[_type == "collection"] | order(_createdAt asc)`
+    const collectionQuery = groq`*[_type == "collection"] | order(_createdAt asc) {
+      ...,
+      "url": issuePDF.asset->url
+    }`
     const collections = await $sanity.fetch(collectionQuery)
 
     const charQuery = groq`*[_type == "collection" && featured== true][0]{
       ...,
-      collection[]->
+      collection[]->,
     }`
     const chars = await $sanity.fetch(charQuery)
 
@@ -189,9 +181,8 @@ export default {
     const comingSoon = await $sanity.fetch(comingSoonQuery)
 
     return {
-      characters,
       globalInfo,
-      issues,
+
       collections,
       chars,
       comingSoon,
