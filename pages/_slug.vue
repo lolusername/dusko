@@ -1,19 +1,19 @@
 <template>
   <div class="container mx-auto">
     <main class="flex gap-4 justify-center py-24">
-      <section v-for="(img, i) in new Array(3)" :key="i" class="">
-        <img
-          :src="$urlFor(character.charImage)"
-          :alt="character.description"
-          class="object-cover align-center rounded-sm border img-set transition"
-          :style="{
-            height: `${(i + 1.25) * 10}vmin`,
-            filter: `grayscale(${100 - (i + 1) * 33.3333333333}%)`,
-            opacity: `${(i + 1) * 33.3333333333}%`,
-            transform: `scale(1.2)  skew(${100 - (i + 1) * 33.334}deg);`,
-          }"
-        />
-      </section>
+      <img
+        :src="$urlFor(character.charImage)"
+        :alt="character.description"
+        class="
+          object-cover
+          align-center
+          rounded-sm
+          border
+          img-set
+          transition
+          max-w-md
+        "
+      />
     </main>
     <div
       class="
@@ -36,12 +36,10 @@
     <div
       class="
         max-w-3xl
-        my-12
+        my-6
         mx-auto
         transition transition-colors
-        text-xl
-        md:text-4xl
-        text-pink-600
+        text-xl text-pink-600
         bg-yellow-300
         md:rounded-xl
         p-3
@@ -49,7 +47,7 @@
       "
     >
       <h3 class="inline-block mr-6 font-heading mt-1 uppercase">Tags:</h3>
-      <div class="flex gap-6 inline-block">
+      <div class="flex gap-3 inline-block">
         <span
           class="font-bold hover:text-gray-800"
           v-for="(tag, i) in character.tags"

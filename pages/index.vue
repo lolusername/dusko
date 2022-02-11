@@ -169,7 +169,7 @@ export default {
     const globalQuery = groq`*[_id == "about"][0]`
     const globalInfo = await $sanity.fetch(globalQuery)
 
-    const collectionQuery = groq`*[_type == "collection"] | order(_createdAt asc) {
+    const collectionQuery = groq`*[_type == "collection"] | order(order desc) {
       ...,
       "url": issuePDF.asset->url
     }`
