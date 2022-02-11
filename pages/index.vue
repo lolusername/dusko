@@ -66,7 +66,7 @@
               class="max-w-full mx-auto my-3 filter"
             />
             <SanityContent :blocks="comingSoon.content" class="" />
-            <div>
+            <div v-if="comingSoon.mintLink">
               <a
                 class="
                   rounded-3xl

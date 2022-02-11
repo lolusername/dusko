@@ -1,8 +1,8 @@
 <template>
   <div class="col-span-3 md:col-span-2">
-    <!-- <span v-for="x in collection.collection">
+    <span v-for="x in collection.collection">
       <p v-if="!x.slug">{{ x.name }}</p>
-    </span> -->
+    </span>
     <h3
       class="
         font-heading
