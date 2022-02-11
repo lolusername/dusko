@@ -18,9 +18,7 @@
     <div v-if="collection.description && showDescription">
       {{ collection.description }}
     </div>
-    <div
-      :class="`grid grid-cols-2 md:grid-cols-${columns} gap-4 -bottom-4 py-3`"
-    >
+    <div :class="`grid  md:grid-cols-${columns} gap-4 -bottom-4 py-3`">
       <article
         v-for="character in characters"
         v-if="character.slug"
