@@ -34,7 +34,7 @@
     <section class="grid grid-cols-3 my-6 md:my-24 gap-12">
       <CollectionListing
         :truncate="9"
-        :truncateLink="chars.collectionSlug"
+        :truncateLink="chars.collectionSlug.current"
         :collection="chars"
       />
 

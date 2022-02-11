@@ -4,6 +4,7 @@
       :collection="collection"
       :columns="5"
       :showDescription="true"
+      class="py-24"
     />
   </div>
 </template>

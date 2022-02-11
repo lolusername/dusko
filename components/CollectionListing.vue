@@ -1,5 +1,8 @@
 <template>
   <div class="col-span-3 md:col-span-2">
+    <!-- <span v-for="x in collection.collection">
+      <p v-if="!x.slug">{{ x.name }}</p>
+    </span> -->
     <h3
       class="
         font-heading
@@ -10,7 +13,7 @@
         font-bold
       "
     >
-      {{ collection.collectionTitle }} collection:
+      {{ collection.collectionTitle }}
     </h3>
     <div v-if="collection.description && showDescription">
       {{ collection.description }}
@@ -18,13 +21,24 @@
     <div
       :class="`grid grid-cols-2 md:grid-cols-${columns} gap-4 -bottom-4 py-3`"
     >
-      <article v-for="character in collection.collection" :key="character._id">
-        <NuxtLink class="inline group" :to="`/${character.slug.current}`">
+      <article
+        v-for="character in characters"
+        v-if="character.slug"
+        :key="character._id"
+      >
+        <NuxtLink
+          class="inline group"
+          v-if="character.slug"
+          :to="`/${character.slug.current}`"
+        >
+          {{ character.text }}
           <img
             :src="$urlFor(character.charImage)"
+            v-if="character.charImage"
             loading="lazy"
             class="w-full"
           />
+
           <p
             class="
               text-red-50
@@ -44,6 +58,7 @@
       </article>
     </div>
     <NuxtLink
+      v-if="truncate"
       class="
         text-3xl
         font-bold
@@ -54,7 +69,7 @@
         underline
         hover:no-underline
       "
-      :to="`/${truncateLink.current}`"
+      :to="`/collection/${truncateLink}`"
       >View All</NuxtLink
     >
   </div>
@@ -66,8 +81,8 @@ export default {
     collection: { type: Object },
     columns: { type: Number, default: 3 },
     showDescription: { type: Boolean, default: false },
-    truncate: { type: Boolean, default: false },
-    truncateLink: { type: String, default: null },
+    truncate: { default: false },
+    truncateLink: { type: String, default: '' },
   },
   computed: {
     characters() {
