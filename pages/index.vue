@@ -9,7 +9,7 @@
         :src="$urlFor(globalInfo.welcomeImage)"
         alt="Artwork representing the collection"
         loading="lazy"
-        class="max-w-full md:max-w-lg border-8 object-cover"
+        class="max-w-full md:max-w-md border-8 object-cover"
       />
       <div class="text-xl md:text-3xl p-3">
         <h1 class="font-heading text-6xl font-bold text-red-500 mb-3">
@@ -31,6 +31,11 @@
         </article>
       </div>
     </section>
+    <iframe
+      id="mint"
+      class="w-full border-t border-b my-12 px-3 md:px-0"
+      src="https://mintdusko.world"
+    ></iframe>
     <section class="grid grid-cols-3 my-6 md:my-24 gap-12">
       <CollectionListing
         :truncate="9"
@@ -203,5 +208,8 @@ export default {
 }
 .issues {
   text-shadow: 1px -2px 1px #e5e7eb;
+}
+#mint {
+  height: 666px;
 }
 </style>
