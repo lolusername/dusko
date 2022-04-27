@@ -31,11 +31,34 @@
         </article>
       </div>
     </section>
-    <iframe
-      id="mint"
-      class="w-full border-t border-b my-12 px-3 md:px-0"
-      src="https://mintdusko.world"
-    ></iframe>
+    <section
+      class="
+        bg-red-500
+        p-12
+        w-full
+        my-12
+        flex
+        justify-center
+        items-center
+        rounded
+      "
+    >
+      <a
+        href="https://www.mintdusko.world/"
+        class="
+          bg-blue-600
+          text-white
+          font-bold
+          uppercase
+          px-6
+          text-3xl
+          py-3
+          transition-all
+          hover:bg-blue-700
+        "
+        >mint here</a
+      >
+    </section>
     <section class="grid grid-cols-3 my-6 md:my-24 gap-12">
       <CollectionListing
         :truncate="9"

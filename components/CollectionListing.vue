@@ -1,6 +1,6 @@
 <template>
   <div class="col-span-3 md:col-span-2">
-    <span v-for="x in collection.collection">
+    <span v-for="(x, i) in collection.collection" :key="i">
       <p v-if="!x.slug">{{ x.name }}</p>
     </span>
     <h3
